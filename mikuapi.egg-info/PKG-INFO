@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: mikuapi
+Version: 0.1.0
+Summary: MikuAPI: A modern lightweight Python web framework
+Author: Qwanwin
+Keywords: api,framework,fastapi,web
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: uvicorn
