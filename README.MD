@@ -22,7 +22,7 @@ mikuapi run main:app --reload
 
 ## Documentation
 
-Full documentation coming soon.
+https://cynthia-cnn.github.io/MikuApi/
 
 ## License
 

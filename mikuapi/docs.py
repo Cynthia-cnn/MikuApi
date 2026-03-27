@@ -1,4 +1,4 @@
-# mikuapi/docs.py
+l
 
 def generate_docs(routes):
     html = """
@@ -13,7 +13,7 @@ def generate_docs(routes):
         </style>
     </head>
     <body>
-        <h1>🚀 MikuAPI Documentation</h1>
+        <h1> MikuAPI Documentation</h1>
     """
 
     for route in routes:

@@ -1,4 +1,3 @@
-# mikuapi/middleware/base.py
 
 class BaseMiddleware:
     def __init__(self, app):

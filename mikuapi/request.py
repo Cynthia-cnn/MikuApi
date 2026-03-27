@@ -1,5 +1,3 @@
-# mikuapi/request.py
-
 import json
 from urllib.parse import parse_qs
 
@@ -20,7 +18,12 @@ class Request:
         if self._query is None:
             raw = self.scope.get("query_string", b"").decode()
             parsed = parse_qs(raw)
-            self._query = {k: v[0] for k, v in parsed.items()}
+
+            self._query = {
+                k: v if len(v) > 1 else v[0]
+                for k, v in parsed.items()
+            }
+
         return self._query
 
     async def body(self):
@@ -41,7 +44,16 @@ class Request:
         body = await self.body()
         if not body:
             return {}
-        return json.loads(body)
+
+        content_type = self.headers().get("content-type", "")
+
+        if "application/json" in content_type:
+            try:
+                return json.loads(body.decode())
+            except:
+                raise ValueError("Invalid JSON body")
+
+        return {}
 
     def headers(self):
         if self._headers is None:

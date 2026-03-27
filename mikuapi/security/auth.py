@@ -1,4 +1,4 @@
-# mikuapi/security/auth.py
+
 
 from mikuapi.errors import ValidationError
 from mikuapi.security.jwt import decode

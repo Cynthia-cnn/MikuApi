@@ -1,11 +1,23 @@
 site_name: MikuAPI
-site_description: Lightweight Python web framework
+
 theme:
   name: material
+
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: indigo
+
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - content.code.copy
+    - content.code.annotate
 
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
   - Routing: routing.md
-  - Auth: auth.md
+  - Dependency: dependency.md
+  - Authentication: auth.md
   - CLI: cli.md

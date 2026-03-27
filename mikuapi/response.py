@@ -1,4 +1,4 @@
-# mikuapi/response.py
+
 
 import json
 

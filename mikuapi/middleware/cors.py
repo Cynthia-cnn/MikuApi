@@ -1,4 +1,3 @@
-# mikuapi/middleware/cors.py
 
 class CORSMiddleware:
     def __init__(self, app):

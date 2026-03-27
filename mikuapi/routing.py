@@ -1,5 +1,3 @@
-# mikuapi/routing.py
-
 import inspect
 
 from .response import JSONResponse, HTMLResponse
@@ -12,7 +10,7 @@ from .docs.swagger import swagger_ui
 from .schema import serialize
 from .limiter import limiter
 from .logger import logger
-
+from .schema import is_model
 
 class Route:
     def __init__(self, method, path, handler, response_model=None):
@@ -53,7 +51,6 @@ class Router:
     def add(self, method, path, handler, response_model=None):
         route = Route(method, path, handler, response_model)
         self.routes.append(route)
-
         self.route_map[(method, path)] = route
 
     def get(self, path, response_model=None):
@@ -100,7 +97,6 @@ class Router:
         try:
             logger.info(f"{request.method} {request.path}")
 
-            # RATE LIMIT
             if hasattr(route.handler, "_rate_limit"):
                 max_req, window = route.handler._rate_limit
                 client = request.scope.get("client", ["unknown"])[0]
@@ -136,19 +132,15 @@ class Router:
 
         query = request.query_params()
 
-        body = {}
-        if request.method == "POST":
-            try:
-                body = await request.json()
-            except:
-                body = {}
+        try:
+            body = await request.json()
+        except:
+            body = {}
 
         for name, param in sig.parameters.items():
 
-            # DEPENDENCY (nested)
             if isinstance(param.default, Depends):
                 dep_func = param.default.dependency
-
                 dep_kwargs = await self.build_params(dep_func, request, path_params)
 
                 if inspect.iscoroutinefunction(dep_func):
@@ -167,20 +159,31 @@ class Router:
 
             if name in path_params:
                 value = path_params[name]
+
             elif name in query:
                 value = query[name]
+
+                if param.annotation == list and not isinstance(value, list):
+                    value = [value]
+
             elif name in body:
                 value = body[name]
 
-            # DEFAULT SUPPORT
+            elif param.annotation == dict and body:
+                kwargs[name] = body
+                continue
+
             if value is None:
                 if param.default != inspect._empty:
                     kwargs[name] = param.default
                     continue
                 raise ValidationError(f"Missing parameter: {name}")
 
-            if param.annotation != inspect._empty:
-                value = convert_type(value, param.annotation)
+            if param.annotation is not inspect._empty:
+                if isinstance(value, list):
+                    value = [convert_type(v, param.annotation) for v in value]
+                else:
+                    value = convert_type(value, param.annotation)
 
             kwargs[name] = value
 

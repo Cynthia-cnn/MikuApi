@@ -1,4 +1,4 @@
-# mikuapi/limiter.py
+
 
 import time
 
@@ -15,7 +15,7 @@ class RateLimiter:
 
         requests = self.storage[key]
 
-        # hapus request lama
+       
         self.storage[key] = [t for t in requests if now - t < window]
 
         if len(self.storage[key]) >= limit:

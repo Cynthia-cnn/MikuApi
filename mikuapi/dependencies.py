@@ -1,4 +1,4 @@
-# mikuapi/dependencies.py
+
 
 class Depends:
     def __init__(self, dependency):
