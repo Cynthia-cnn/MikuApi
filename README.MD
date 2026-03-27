@@ -1,29 +1,15 @@
 # MikuAPI
 
-A lightweight Python web framework built from scratch.
+Lightweight Python web framework for building APIs.
 
 ## Install
+git clone https://github.com/Cynthia-cnn/MikuApi.git
 
-pip install mikuapi
-
-## Quick Start
-
-from mikuapi import MikuAPI
-
-app = MikuAPI()
-
-@app.get("/")
-def home():
-    return {"message": "Hello from MikuAPI"}
-
-Run server:
-
+## Run
 mikuapi run main:app --reload
 
-## Documentation
-
+## Docs
 https://cynthia-cnn.github.io/MikuApi/
 
 ## License
-
 MIT
